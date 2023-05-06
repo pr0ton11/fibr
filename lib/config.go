@@ -9,8 +9,12 @@ import (
 
 // Configuration
 type Config struct {
+	// URL of the server
+	server *string `yaml:"server"`
+	// Heartbeat configuration
+	heartbeat *HeartBeatConfiguration `yaml:"heartbeat"`
 	// Models contained in this configuration
-	models *[]LanguageModel
+	models *[]LanguageModel `yaml:"languageModels"`
 }
 
 // Constructor for new configuration

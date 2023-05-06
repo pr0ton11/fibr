@@ -1,8 +1,12 @@
 package lib
 
-import (
-	"fmt"
-)
+// Contains the configuration for the heartbeat
+type HeartBeatConfiguration struct {
+	// Interval of heartbeats sent by the worker
+	heartBeatIntervalSeconds int `yaml:"intervalSeconds"`
+	// Timeout after which a worker is removed from the pool
+	heartBeatTimeoutSeconds int `yaml:"timoutSeconds"`
+}
 
 // Language
 type LanguageModel struct {
@@ -10,34 +14,14 @@ type LanguageModel struct {
 	enabled bool `yaml:"enabled"`
 	// Name of the language model (e.g Alpaca.7B)
 	name string `yaml:"name"`
+	// Path to the effective model file
+	filename string `yaml:"filename"`
 	// URL to download this language model
 	url string `yaml:"url"`
-	// Magnet link for the torrent
-	magnet string `yaml:"magnet"`
-}
-
-// Downloads the language model either from URL or torrent
-func (model *LanguageModel) download() error {
-	// Prioritize download from web
-	err := model.downloadWeb()
-	if err == nil {
-		return err
-	}
-	// Try to download from torrent
-	return model.downloadTorrent()
 }
 
 // Downloads the language model from the web
-func (model *LanguageModel) downloadWeb() error {
+func (model *LanguageModel) download() error {
 	// TODO: Add download with web client
 	return nil
-}
-
-// Downloads the language model from the torrent
-func (model *LanguageModel) downloadTorrent() error {
-	if model.magnet == "" {
-		return nil
-	} else {
-		return fmt.Errorf("language model: %s does not contain a torrent link", model.name)
-	}
 }
